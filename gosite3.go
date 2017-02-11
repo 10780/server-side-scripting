@@ -1,6 +1,7 @@
 /*day 3 of week 5 assignment
 * 11.02.2017
 * began work 10:46
+* every one of my clocks from my phone to my car radio is set to 24hr time
 */
 
 package main
