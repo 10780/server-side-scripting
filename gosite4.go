@@ -1,5 +1,5 @@
 /*day 4 of week 5 assignment
-* 12.02.2107
+* 12.02.2017
 * began work 1:09
 */
 
