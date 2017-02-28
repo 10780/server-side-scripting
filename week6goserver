@@ -1,0 +1,61 @@
+package main
+
+import(
+"net/http"
+"html/template"
+"go/constant"
+)
+
+type person struct{
+first string
+last string
+}
+
+var tpl *template.Template
+
+func init(){
+tpl = template.Must(template.ParseGlob("templates/*.html"))
+}
+
+func main(){
+http.HandleFunc("/struct1", struct1)
+http.HandleFunc("/map", map1)
+http.HandleFunc("/map1KV", map1KV)
+http.HandleFunc("/slice", slice1)
+http.HandleFunc("/bool", other)
+http.HandleFunc("/string", astring)
+http.HandleFunc("/", index)
+http.ListenAndServe(":8080", nil)
+}
+
+func index(w http.ResponseWriter, r *http.Request){
+tpl.ExecuteTemplate(w, "index.html", 42)
+}
+
+func astring(w http.ResponseWriter, r *http.Request){
+tpl.ExecuteTemplate(w, "string.html", "This is a string")
+}
+
+func other(w http.ResponseWriter, r *http.Request){
+tpl.ExecuteTemplate(w, "bool.html", constant.Bool)
+}
+
+func slice1(w http.ResponseWriter, r *http.Request){
+p1 := person{"perry", "ball"}
+tpl.ExecuteTemplate(w, "slice.html", p1)
+}
+
+func map1(w http.ResponseWriter, r *http.Request){
+m := map[string]int{"perry":27}
+tpl.ExecuteTemplate(w, "map.html", m)
+}
+
+func map1KV(w http.ResponseWriter, r *http.Request){
+m := map[string]int{"perry":27}
+tpl.ExecuteTemplate(w, "map1KV.html", m)
+}
+
+func struct1(w http.ResponseWriter, r *http.Request){
+p1 := person{"perry", "ball"}
+tpl.ExecuteTemplate(w, "struct.html", p1)
+}
