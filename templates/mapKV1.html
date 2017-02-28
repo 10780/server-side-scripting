@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+<meta charset="UTF-8">
+<title>Map Range</title>
+</head>
+
+<body>
+Passing Map with Key and Value:
+<br>
+<h2>DATA: {{.}}</h2>
+{{range $name, $age := .}}
+<h3>Data in loop: {{$name}} {{$age}}</h3>
+{{end}}
+</body>
+
+</html>
