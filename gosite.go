@@ -20,10 +20,10 @@ tpl = template.Must(template.ParseGlob("*.gohtml"))
 }
 
 func main(){
-http.("/", homepage)
+http.HandleFunc("/", homepage)
 http.ListenAndServe(":8080", nil)
 }
 
-func homepage(w http.ResponseWriter, r *httpRequest){
+func homepage(w http.ResponseWriter, r *http.Request){
 tpl.ExecuteTemplate(w, `home.gohtml`, nil)
 }
