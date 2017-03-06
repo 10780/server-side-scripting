@@ -22,5 +22,5 @@ http.ListenAndServe(":8080", nil)
 }
 
 func index(w http.ResponseWriter, r *http.Request){
-http.ExecuteTemplate(w, "index2.gohtml")
+http.ExecuteTemplate(w, "index1.gohtml")
 }
