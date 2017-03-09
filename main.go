@@ -17,7 +17,7 @@ tpl = template.Must(template.ParseGlob("/templates/*.gohtml"))
 
 func main(){
 http.HandleFunc("/", index)
-http.Handle("/public/", http.StripPrefix("/public", http.FileServer(http.Dir("/assets"))
+  http.Handle("/public/", http.StripPrefix("/public", http.FileServer(http.Dir("/assets"))))
 http.ListenAndServe(":8080", nil)
 }
 
