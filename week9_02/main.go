@@ -2,38 +2,58 @@ package main
 
 import (
 "net/http"
+"html/template"
 "fmt"
 )
 
-func main(){
-http.HandleFunc("/", set)
-http.HandleFunc("/dog/bowzer", dog_bowzer)
-http.HandleFunc("/cat", cat)
-http.ListenAndServe(":8080", nil)
+var tpl *template.Template
+
+func init() {
+	tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
 }
 
-func set(w http.ResponseWriter, r *http.Request){
-http.SetCookie(w, &http.Cookie {
-Name: "site-cookie",
-Value: "value", 
-})
-fmt.Fprintln(w, "COOKIE SET")
+func main() {
+	http.HandleFunc("/", index)
+	http.HandleFunc("/dog/bowzer", bowzer)
+	http.HandleFunc("/dog/bowzer/pictures", bowzerpics)
+	http.HandleFunc("/cat", cat)
+	http.ListenAndServe(":8080", nil)
 }
 
-func dog_bowzer(w http.ResponseWriter, r *http.Request){
-c, err := r.Cookie("site-cookie")
-if err != nil {
-http.Error(w, http.StatusText(400), http.StatusBadRequest)
-return
-}
-fmt.Fprintln(w, "COOKIE: ", c)
+func index(w http.ResponseWriter, r *http.Request) {
+	var c *http.Cookie
+	c, err := r.Cookie("user-cookie")
+	if err != nil {
+		fmt.Println(err)
+		fmt.Printf("%T\n", c)
+	}
+	tpl.ExecuteTemplate(w, "index.gohtml", c)
 }
 
-func cat(w http.ResponseWriter, r *http.Request){
-c, err := r.Cookie("site-cookie")
-if err != nil {
-http.Error(w, http.StatusText(400), http.StatusBadRequest)
-return
+func bowzer(w http.ResponseWriter, r *http.Request) {
+	c := &http.Cookie{
+		Name: "user-cookie",
+		Value: "this would be the value",
+		Path: "/",
+	}
+	http.SetCookie(w, c)
+	tpl.ExecuteTemplate(w, "bowzer.gohtml", c)
 }
-fmt.Fprintln(w, "COOKIE: ", c)
+
+func bowzerpics(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("user-cookie")
+	if err != nil {
+		fmt.Println(err)
+		fmt.Printf("%T\n", c)
+	}
+	tpl.ExecuteTemplate(w, "bowzerpics.gohtml", c)
+}
+
+func cat(w http.ResponseWriter, r *http.Request) {
+	c, err := r.Cookie("user-cookie")
+	if err != nil {
+		fmt.Println(err)
+		fmt.Printf("%T\n", c)
+	}
+	tpl.ExecuteTemplate(w, "cat.gohtml", c)
 }
