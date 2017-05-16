@@ -1,0 +1,49 @@
+package main
+
+import (
+"net/http"
+"html/template"
+"fmt"
+"gopkg.in/mgo.v2"
+"gopkg.in/mgo.v2/bson"
+)
+
+type customer struct {
+Name string `json:"name" bson:"name"`
+}
+
+var tpl *template.Template
+var db *mgo.Database
+var Customer *mgo.Collection
+
+func init(){
+tpl = template.Must(template.ParseGlob("templates/*.gohtml"))
+
+s, err := mgo.Dial("mongodb://localhost/store")
+if err != nil {
+panic(err)
+}
+
+if err = s.Ping(); err != nil {
+panic(err)
+}
+
+db = s.DB("store")
+Customer = DB.C("customer")
+
+fmt.Println("Mongo database connected")
+}
+
+func main(){
+http.HandleFunc("/", index)
+http.ListenAndServe(":8080", nil)
+}
+
+func index(w http.ResponseWriter, r *http.Request){
+customers := []customer[]
+err := Customer.Find(bson.M{}).All(&customers)
+if err != nil {
+fmt.Println(err)
+}
+tpl.ExecuteTemplate(w, "index.gohtml", customers)
+}
