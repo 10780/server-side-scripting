@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/background.css">
+<title>Welcome</title>
+</head>
+
+<body>
+<h2>WELCOME</h2>
+
+{{if .First}}
+USERNAME {{.UserName}}<br>
+PASSWORD {{.Password}}<br>
+FIRST {{.First}}<br>
+LAST {{.Last}}<br>
+
+<h4><a href="/logout"Log Out</a></h4>
+{{end}}
+
+</body>
+</html>

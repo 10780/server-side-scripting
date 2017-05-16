@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en-us">
+<head>
+<meta charset="UTF-8">
+<link rel="stylesheet" href="css/main.css">
+<link rel="stylesheet" href="css/background.css">
+<title>Login</title>
+</head>
+
+<body>
+
+{{if .First}}
+USERNAME {{.UserName}}<br>
+PASSWORD {{.Password}}<br>
+FIRST {{.First}}<br>
+LAST {{.Last}}<br>
+<h4><a href="/logout"><Logout</a></h4>
+{{else}}
+<h4><a href="/signup"<Sign up</a></h4>
+<h4><a href="/login"<Login</a></h4>
+{{end}}
+
+<br>
+
+<h3>Go to <a href="/yourindex">your index</a></h3>
+
+</body>
+</html>
